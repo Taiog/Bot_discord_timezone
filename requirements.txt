@@ -1,4 +1,3 @@
-dotenv
+python-dotenv
 discord
-datetime
 pytz
