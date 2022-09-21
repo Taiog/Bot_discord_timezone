@@ -6,12 +6,11 @@ import pytz
 import os
 
 load_dotenv()
-hora = datetime.datetime.now()
-hora_string = hora.strftime("%A - %d %B/%y - %I:%M%p")
-horaBR = ":flag_br: " + hora_string
+tz_BR = pytz.timezone("America/Recife")
+datetime_BR = datetime.datetime.now(tz_BR)
+horaBR = ":flag_br:" + datetime_BR.strftime("%A - %d %B/%y - %I:%M%p")
 
 tz_CA = pytz.timezone("America/Regina")
-
 datetime_CA = datetime.datetime.now(tz_CA)
 horaCA = ":flag_ca:" + datetime_CA.strftime("%A - %d %B/%y - %I:%M%p")
 
