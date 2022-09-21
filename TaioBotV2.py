@@ -1,3 +1,4 @@
+from mailbox import linesep
 from sys import flags
 from dotenv import load_dotenv
 import discord
@@ -22,7 +23,13 @@ class MyClient(discord.Client):
     async def on_message(self, message):
         print(f"Message from {message.author}: {message.content}")
         if message.content == ".hora":
-            await message.channel.send(calculateTime(":flag_br:", "America/Recife"))
+            await message.channel.send(
+                calculateTime(":flag_br: ", "America/Recife")
+                + os.linesep
+                + calculateTime(":flag_ca: ", "America/Regina")
+                + os.linesep
+                + calculateTime(":flag_se: ", "Europe/Amsterdam")
+            )
 
 
 intents = discord.Intents.default()
