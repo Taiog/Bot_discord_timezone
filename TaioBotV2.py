@@ -6,6 +6,11 @@ import pytz
 import os
 
 load_dotenv()
+
+hora = datetime.datetime.now()
+hora_string = hora.strftime("%A - %d %B/%y - %I:%M%p")
+horaUTC = ":united_nations:" + hora_string
+
 tz_BR = pytz.timezone("America/Recife")
 datetime_BR = datetime.datetime.now(tz_BR)
 horaBR = ":flag_br:" + datetime_BR.strftime("%A - %d %B/%y - %I:%M%p")
@@ -26,6 +31,7 @@ class MyClient(discord.Client):
     async def on_message(self, message):
         print(f"Message from {message.author}: {message.content}")
         if message.content == ".hora":
+            await message.channel.send(horaUTC)
             await message.channel.send(horaBR)
             await message.channel.send(horaCA)
             await message.channel.send(horaSE)
