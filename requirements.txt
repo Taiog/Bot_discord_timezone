@@ -3,4 +3,3 @@ discord
 datetime
 pytz
 requests
-json
