@@ -39,7 +39,7 @@ class MyClient(discord.Client):
                 + os.linesep
                 + calculateTime(":flag_se: ", "Europe/Amsterdam")
             )
-        if message.content == ".dolar":
+        elif message.content == ".dolar":
             await message.channel.send(cotacao_dolar)
 
 
