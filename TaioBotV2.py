@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 import discord
 import datetime
 import pytz
+import requests
 import os
+import json
 
 load_dotenv()
 
@@ -30,6 +32,23 @@ class MyClient(discord.Client):
                 + os.linesep
                 + calculateTime(":flag_se: ", "Europe/Amsterdam")
             )
+
+
+cotacoes = requests.get(
+    "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"
+)
+cotacoes = cotacoes.json()
+cotacao_dolar = "A cotação atual do dólar é R$" + cotacoes["USDBRL"]["bid"]
+
+
+class MyClient(discord.Client):
+    async def on_ready(self):
+        print(f"Logged on as {self.user}!")
+
+    async def on_message(self, message):
+        print(f"Message from {message.author}: {message.content}")
+        if message.content == ".dolar":
+            await message.channel.send(cotacao_dolar)
 
 
 intents = discord.Intents.default()
