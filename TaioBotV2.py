@@ -24,6 +24,10 @@ cotacoes = requests.get(
 cotacoes = cotacoes.json()
 cotacao_dolar = "A cotação atual do dólar é R$" + cotacoes["USDBRL"]["bid"]
 
+karderainfo = requests.get("https://api.tibiadata.com/v3/world/kardera")
+karderainfo = karderainfo.json()
+karderaplayers = karderainfo["worlds"]["world"]["players_online"]
+
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -41,6 +45,10 @@ class MyClient(discord.Client):
             )
         elif message.content == ".dolar":
             await message.channel.send(cotacao_dolar)
+        elif message.content == ".kardera":
+            await message.channel.send(
+                "Quantidade de players online em kardera: " + str(karderaplayers)
+            )
 
 
 intents = discord.Intents.default()
