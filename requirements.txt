@@ -3,3 +3,4 @@ discord
 datetime
 pytz
 requests
+pymongo
