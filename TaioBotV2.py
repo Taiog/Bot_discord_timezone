@@ -75,6 +75,19 @@ class MyClient(discord.Client):
                 print(result)
                 await message.channel.send(result["link"])
 
+        if message.content == ".commands":
+            await message.channel.send(
+                "Olá, esses são os meus comandos:"
+                + os.linesep
+                + " -> '.hora' - Para saber o horário atual no Brasil, Canadá(Regina) e na Suécia;"
+                + os.linesep
+                + " -> '.dolar' - Para saber a cotação do dolar em tempo real;"
+                + os.linesep
+                + " -> '.kardera' - Para saber quantas pessoas estão jogando no momento no desértico mundo de kardera;"
+                + os.linesep
+                + " -> Meu mais novo comando é um Favoritos, digite '.add (um link importante)' para salvar esse link importante no meu banco de dados, para consultá-los, basta digita '.linklist';"
+            )
+
 
 intents = discord.Intents.default()
 intents.message_content = True
