@@ -1,5 +1,8 @@
+from email import message
 from mailbox import linesep
+from operator import truediv
 from sys import flags
+from unittest import result
 from dotenv import load_dotenv
 import discord
 import datetime
@@ -7,8 +10,13 @@ import pytz
 import requests
 import os
 import json
+import pymongo
+from pymongo import MongoClient
 
 load_dotenv()
+cluster = MongoClient(os.getenv("MONGO"))
+db = cluster["LinkList"]
+collection = db["links_discord"]
 
 
 def calculateTime(country, zone):
@@ -35,6 +43,9 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         print(f"Message from {message.author}: {message.content}")
+        if message.author == client.user:
+            return
+
         if message.content == ".hora":
             await message.channel.send(
                 calculateTime(":flag_br: ", "America/Recife")
@@ -43,12 +54,26 @@ class MyClient(discord.Client):
                 + os.linesep
                 + calculateTime(":flag_se: ", "Europe/Amsterdam")
             )
-        elif message.content == ".dolar":
+
+        if message.content == ".dolar":
             await message.channel.send(cotacao_dolar)
-        elif message.content == ".kardera":
+
+        if message.content == ".kardera":
             await message.channel.send(
                 "Quantidade de players online em kardera: " + str(karderaplayers)
             )
+
+        if message.content.startswith(".add"):
+            linkmsg = message.content.split(".add ", 1)[1]
+            post = {"link": linkmsg}
+            collection.insert_one(post)
+            await message.channel.send("Novo link foi adicionado")
+
+        if message.content == ".linklist":
+            results = collection.find()
+            for result in results:
+                print(result)
+                await message.channel.send(result["link"])
 
 
 intents = discord.Intents.default()
