@@ -32,9 +32,9 @@ cotacoes = requests.get(
 cotacoes = cotacoes.json()
 cotacao_dolar = "A cotação atual do dólar é R$" + cotacoes["USDBRL"]["bid"]
 
-karderainfo = requests.get("https://api.tibiadata.com/v3/world/kardera")
-karderainfo = karderainfo.json()
-karderaplayers = karderainfo["worlds"]["world"]["players_online"]
+worldinfo = requests.get("https://api.tibiadata.com/v3/world/nefera")
+worldinfo = worldinfo.json()
+worldplayers = worldinfo["worlds"]["world"]["players_online"]
 
 
 class MyClient(discord.Client):
@@ -58,9 +58,9 @@ class MyClient(discord.Client):
         if message.content == ".dolar":
             await message.channel.send(cotacao_dolar)
 
-        if message.content == ".kardera":
+        if message.content == ".nefera":
             await message.channel.send(
-                "Quantidade de players online em kardera: " + str(karderaplayers)
+                "Quantidade de players online em nefera: " + str(worldplayers)
             )
 
         if message.content.startswith(".add"):
