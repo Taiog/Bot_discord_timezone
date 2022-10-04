@@ -1,4 +1,3 @@
-from email import message
 from mailbox import linesep
 from operator import truediv
 from sys import flags
@@ -26,15 +25,23 @@ def calculateTime(country, zone):
     return country + timenow.strftime("%A - %d %B/%y - %I:%M%p")
 
 
+def searchWorld(message):
+    worldmsg = message.content.split(".tibia ", 1)[1]
+    print(worldmsg)
+    worldinfo = requests.get("https://api.tibiadata.com/v3/world/" + worldmsg)
+    worldinfo = worldinfo.json()
+    worldplayers = worldinfo["worlds"]["world"]["players_online"]
+    if worldplayers == 0:
+        return "Esse mundo não existe."
+    else:
+        return "Quantidade de players online em " + worldmsg + " é:" + str(worldplayers)
+
+
 cotacoes = requests.get(
     "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"
 )
 cotacoes = cotacoes.json()
 cotacao_dolar = "A cotação atual do dólar é R$" + cotacoes["USDBRL"]["bid"]
-
-worldinfo = requests.get("https://api.tibiadata.com/v3/world/nefera")
-worldinfo = worldinfo.json()
-worldplayers = worldinfo["worlds"]["world"]["players_online"]
 
 
 class MyClient(discord.Client):
@@ -58,10 +65,8 @@ class MyClient(discord.Client):
         if message.content == ".dolar":
             await message.channel.send(cotacao_dolar)
 
-        if message.content == ".nefera":
-            await message.channel.send(
-                "Quantidade de players online em nefera: " + str(worldplayers)
-            )
+        if message.content.startswith(".tibia"):
+            await message.channel.send(searchWorld(message))
 
         if message.content.startswith(".add"):
             linkmsg = message.content.split(".add ", 1)[1]
