@@ -80,6 +80,9 @@ class MyClient(discord.Client):
                 print(result)
                 await message.channel.send(result["link"])
 
+        if message.content == ".drigow":
+            await message.channel.send("Jogo lixo")
+
         if message.content == ".commands":
             await message.channel.send(
                 "Olá, esses são os meus comandos:"
@@ -88,7 +91,7 @@ class MyClient(discord.Client):
                 + os.linesep
                 + " -> '.dolar' - Para saber a cotação do dolar em tempo real;"
                 + os.linesep
-                + " -> '.kardera' - Para saber quantas pessoas estão jogando no momento no desértico mundo de kardera;"
+                + " -> '.tibia' - Para saber quantas pessoas estão jogando no momento em qualquer mundo do Tibia, digita '.tibia (mundo a sua escolha)';"
                 + os.linesep
                 + " -> Meu mais novo comando é um Favoritos, digite '.add (um link importante)' para salvar esse link importante no meu banco de dados, para consultá-los, basta digita '.linklist';"
             )
